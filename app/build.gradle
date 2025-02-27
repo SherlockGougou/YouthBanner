@@ -50,6 +50,6 @@ dependencies {
     implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-arm64:v10.0.0'
     implementation 'com.github.CarGuo.GSYVideoPlayer:gsyvideoplayer-armv7a:v10.0.0'
 
-    implementation project(':banner')
-//    implementation 'io.github.youth5201314:banner:2.2.1'
+    // implementation project(':banner')
+    implementation 'com.github.SherlockGougou:YouthBanner:1.0.0'
 }
