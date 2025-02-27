@@ -21,18 +21,6 @@ public class ScrollSpeedManger extends LinearLayoutManager {
         this.banner = banner;
     }
 
-    @Override
-    public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-        LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
-            @Override
-            protected int calculateTimeForDeceleration(int dx) {
-                return banner.getScrollTime();
-            }
-        };
-        linearSmoothScroller.setTargetPosition(position);
-        startSmoothScroll(linearSmoothScroller);
-    }
-
     public static void reflectLayoutManager(Banner banner) {
         if (banner.getScrollTime() < 100) return;
         try {
@@ -69,6 +57,18 @@ public class ScrollSpeedManger extends LinearLayoutManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+        LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
+            @Override
+            protected int calculateTimeForDeceleration(int dx) {
+                return banner.getScrollTime();
+            }
+        };
+        linearSmoothScroller.setTargetPosition(position);
+        startSmoothScroll(linearSmoothScroller);
     }
 
 }

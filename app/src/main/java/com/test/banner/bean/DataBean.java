@@ -47,6 +47,7 @@ public class DataBean {
 
     /**
      * 仿淘宝商品详情第一个是视频
+     *
      * @return
      */
     public static List<DataBean> getTestDataVideo() {
@@ -84,7 +85,7 @@ public class DataBean {
 
     public static List<String> getColors(int size) {
         List<String> list = new ArrayList<>();
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             list.add(getRandColor());
         }
         return list;

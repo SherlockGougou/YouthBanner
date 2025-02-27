@@ -1,6 +1,7 @@
 package com.spring.usekotlin
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.youth.banner.Banner
@@ -8,15 +9,17 @@ import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.indicator.RoundLinesIndicator
-import kotlinx.android.synthetic.main.activity_main.*
+import com.youth.banner.listener.OnBannerListener
+import kotlinx.android.synthetic.main.activity_main.bannerLayout1
+import kotlinx.android.synthetic.main.activity_main.bannerLayout2
 
 class MainActivity : AppCompatActivity() {
 
     var imageUrls = listOf(
-            "https://img.zcool.cn/community/01b72057a7e0790000018c1bf4fce0.png",
-            "https://img.zcool.cn/community/016a2256fb63006ac7257948f83349.jpg",
-            "https://img.zcool.cn/community/01233056fb62fe32f875a9447400e1.jpg",
-            "https://img.zcool.cn/community/01700557a7f42f0000018c1bd6eb23.jpg"
+        "https://img.zcool.cn/community/01b72057a7e0790000018c1bf4fce0.png",
+        "https://img.zcool.cn/community/016a2256fb63006ac7257948f83349.jpg",
+        "https://img.zcool.cn/community/01233056fb62fe32f875a9447400e1.jpg",
+        "https://img.zcool.cn/community/01700557a7f42f0000018c1bd6eb23.jpg"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +31,23 @@ class MainActivity : AppCompatActivity() {
             addBannerLifecycleObserver(this@MainActivity)
             setIndicator(CircleIndicator(this@MainActivity))
             setAdapter(object : BannerImageAdapter<String>(imageUrls) {
-                override fun onBindView(holder: BannerImageHolder, data: String, position: Int, size: Int) {
+                override fun onBindView(
+                    holder: BannerImageHolder,
+                    data: String,
+                    position: Int,
+                    size: Int
+                ) {
                     Glide.with(this@MainActivity)
-                            .load(data)
-                            .into(holder.imageView)
+                        .load(data)
+                        .into(holder.imageView)
+                }
+            }).setOnBannerListener(object : OnBannerListener<String> {
+                override fun OnBannerClick(data: String?, position: Int) {
+                    Toast.makeText(banner.context, "点击: $position", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun OnBannerLongClick(data: String?, position: Int) {
+                    Toast.makeText(banner.context, "长按: $position", Toast.LENGTH_SHORT).show()
                 }
             })
         }

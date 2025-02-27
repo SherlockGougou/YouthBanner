@@ -11,6 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:banner_infinite_loop="false"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

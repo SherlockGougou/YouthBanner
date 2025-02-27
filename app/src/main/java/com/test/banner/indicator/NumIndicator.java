@@ -12,7 +12,7 @@ import com.youth.banner.util.BannerUtils;
 
 /**
  * 自定义数字指示器demo，比较简单，具体的自己发挥
- *
+ * <p>
  * 这里没有用的自定义属性的参数，可以考虑加上
  */
 public class NumIndicator extends BaseIndicator {

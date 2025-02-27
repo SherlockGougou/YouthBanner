@@ -8,8 +8,6 @@ import androidx.annotation.Px;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.youth.banner.util.BannerUtils;
-
 
 public class MarginDecoration extends RecyclerView.ItemDecoration {
     private int mMarginPx;

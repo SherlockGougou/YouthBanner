@@ -1,14 +1,12 @@
 package com.test.banner.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.test.banner.bean.DataBean;
 import com.test.banner.R;
+import com.test.banner.bean.DataBean;
 import com.test.banner.viewholder.ImageTitleHolder;
 import com.youth.banner.adapter.BannerAdapter;
-import com.youth.banner.util.BannerUtils;
 
 import java.util.List;
 

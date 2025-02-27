@@ -2,6 +2,13 @@ package com.test.banner.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.test.banner.R;
 import com.test.banner.adapter.ImageAdapter;
@@ -9,12 +16,9 @@ import com.test.banner.bean.DataBean;
 import com.test.banner.util.TabLayoutMediator;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnBannerListener;
+import com.youth.banner.util.LogUtils;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -58,8 +62,21 @@ public class Vp2FragmentRecyclerviewActivity extends AppCompatActivity {
 
 
         mBanner.addBannerLifecycleObserver(this)
-               .setAdapter(new ImageAdapter(DataBean.getTestData()))
-               .setIntercept(false)
-               .setIndicator(new CircleIndicator(this));
+                .setAdapter(new ImageAdapter(DataBean.getTestData()))
+                .setIntercept(false)
+                .setIndicator(new CircleIndicator(this))
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(Object data, int position) {
+                        Snackbar.make(mBanner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
+                    public void OnBannerLongClick(Object data, int position) {
+                        Snackbar.make(mBanner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+                });
     }
 }

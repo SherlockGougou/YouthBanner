@@ -4,7 +4,7 @@ import com.youth.banner.util.BannerUtils;
 
 /**
  * 不忘初心
- *
+ * <p>
  * ┌───┐   ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐  ┌┐    ┌┐    ┌┐
  * │Esc│   │ F1│ F2│ F3│ F4│ │ F5│ F6│ F7│ F8│ │ F9│F10│F11│F12│ │P/S│S L│P/B│  └┘    └┘    └┘
  * └───┘   └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┘
@@ -20,9 +20,9 @@ import com.youth.banner.util.BannerUtils;
  * │ Ctrl│    │Alt │         Space         │ Alt│    │    │Ctrl│ │ ← │ ↓ │ → │ │   0   │ . │←─┘│
  * └─────┴────┴────┴───────────────────────┴────┴────┴────┴────┘ └───┴───┴───┘ └───────┴───┴───┘
  *
- *  @author youth5201314/spring
- *  @date 2020/1/24
- *  banner 配置参数
+ * @author youth5201314/spring
+ * @date 2020/1/24
+ * banner 配置参数
  */
 public class BannerConfig {
     public static final boolean IS_AUTO_LOOP = true;

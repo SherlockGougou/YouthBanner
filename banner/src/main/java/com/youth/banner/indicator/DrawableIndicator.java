@@ -5,13 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.IdRes;
 
 import com.youth.banner.R;
 
@@ -25,6 +22,7 @@ public class DrawableIndicator extends BaseIndicator {
 
     /**
      * 实例化Drawable指示器 ，也可以通过自定义属性设置
+     *
      * @param context
      * @param normalResId
      * @param selectedResId

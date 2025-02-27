@@ -14,9 +14,6 @@ import com.youth.banner.util.BannerUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 
 public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements IViewHolder<T, VH> {
     protected List<T> mDatas = new ArrayList<>();
@@ -49,7 +46,7 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
      * @return
      */
     public T getData(int position) {
-        if (position > mDatas.size()-1) {
+        if (position > mDatas.size() - 1) {
             return null;
         }
         return mDatas.get(position);
@@ -63,7 +60,7 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
      */
     public T getRealData(int position) {
         int realPosition = getRealPosition(position);
-        if (realPosition > mDatas.size()-1) {
+        if (realPosition > mDatas.size() - 1) {
             return null;
         }
         return mDatas.get(realPosition);
@@ -80,6 +77,10 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
         onBindView(holder, mDatas.get(real), real, getRealCount());
         if (mOnBannerListener != null) {
             holder.itemView.setOnClickListener(view -> mOnBannerListener.OnBannerClick(data, real));
+            holder.itemView.setOnLongClickListener(view -> {
+                mOnBannerListener.OnBannerLongClick(data, real);
+                return true;
+            });
         }
     }
 
@@ -94,6 +95,14 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
                 int real = (int) vh.itemView.getTag(R.id.banner_pos_key);
                 mOnBannerListener.OnBannerClick(data, real);
             }
+        });
+        vh.itemView.setOnLongClickListener(v -> {
+            if (mOnBannerListener != null) {
+                T data = (T) vh.itemView.getTag(R.id.banner_data_key);
+                int real = (int) vh.itemView.getTag(R.id.banner_pos_key);
+                mOnBannerListener.OnBannerLongClick(data, real);
+            }
+            return true;
         });
         return vh;
     }

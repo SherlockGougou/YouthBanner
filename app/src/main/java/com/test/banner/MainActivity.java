@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -14,7 +17,6 @@ import com.test.banner.adapter.ImageTitleAdapter;
 import com.test.banner.adapter.ImageTitleNumAdapter;
 import com.test.banner.adapter.MultipleTypesAdapter;
 import com.test.banner.bean.DataBean;
-import com.youth.banner.indicator.DrawableIndicator;
 import com.test.banner.ui.ConstraintLayoutBannerActivity;
 import com.test.banner.ui.GalleryActivity;
 import com.test.banner.ui.RecyclerViewBannerActivity;
@@ -24,17 +26,14 @@ import com.test.banner.ui.VideoActivity;
 import com.test.banner.ui.Vp2FragmentRecyclerviewActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
-import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.config.BannerConfig;
 import com.youth.banner.config.IndicatorConfig;
+import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.indicator.RoundLinesIndicator;
-import com.youth.banner.listener.OnPageChangeListener;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
 import com.youth.banner.util.LogUtils;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        List<DataBean> datas =  DataBean.getTestData2();
+        List<DataBean> datas = DataBean.getTestData2();
 
         //自定义的图片适配器，也可以使用默认的BannerImageAdapter
         ImageAdapter adapter = new ImageAdapter(datas);
@@ -67,9 +66,18 @@ public class MainActivity extends AppCompatActivity {
                 .addBannerLifecycleObserver(this)
                 //设置指示器
                 .setIndicator(new CircleIndicator(this))
-                .setOnBannerListener((data, position) -> {
-                    Snackbar.make(banner, ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
-                    LogUtils.d("position：" + position);
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(Object data, int position) {
+                        Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
+                    public void OnBannerLongClick(Object data, int position) {
+                        Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
                 });
 
         //添加item之间切换时的间距(如果使用了画廊效果就不要添加间距了，因为内部已经添加过了)
@@ -107,13 +115,39 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.style_image:
                 refresh.setEnabled(true);
-                banner.setAdapter(new ImageAdapter(DataBean.getTestData()));
+                banner.setAdapter(new ImageAdapter(DataBean.getTestData()))
+                        .setOnBannerListener(new OnBannerListener() {
+                            @Override
+                            public void OnBannerClick(Object data, int position) {
+                                Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+
+                            @Override
+                            public void OnBannerLongClick(Object data, int position) {
+                                Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+                        });
                 banner.setIndicator(new CircleIndicator(this));
                 banner.setIndicatorGravity(IndicatorConfig.Direction.CENTER);
                 break;
             case R.id.style_image_title:
                 refresh.setEnabled(true);
-                banner.setAdapter(new ImageTitleAdapter(DataBean.getTestData()));
+                banner.setAdapter(new ImageTitleAdapter(DataBean.getTestData()))
+                        .setOnBannerListener(new OnBannerListener() {
+                            @Override
+                            public void OnBannerClick(Object data, int position) {
+                                Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+
+                            @Override
+                            public void OnBannerLongClick(Object data, int position) {
+                                Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+                        });
                 banner.setIndicator(new CircleIndicator(this));
                 banner.setIndicatorGravity(IndicatorConfig.Direction.RIGHT);
                 banner.setIndicatorMargins(new IndicatorConfig.Margins(0, 0,
@@ -122,13 +156,39 @@ public class MainActivity extends AppCompatActivity {
             case R.id.style_image_title_num:
                 refresh.setEnabled(true);
                 //这里是将数字指示器和title都放在adapter中的，如果不想这样你也可以直接设置自定义的数字指示器
-                banner.setAdapter(new ImageTitleNumAdapter(DataBean.getTestData()));
+                banner.setAdapter(new ImageTitleNumAdapter(DataBean.getTestData()))
+                        .setOnBannerListener(new OnBannerListener() {
+                            @Override
+                            public void OnBannerClick(Object data, int position) {
+                                Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+
+                            @Override
+                            public void OnBannerLongClick(Object data, int position) {
+                                Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+                        });
                 banner.removeIndicator();
                 break;
             case R.id.style_multiple:
                 refresh.setEnabled(true);
                 banner.setIndicator(new CircleIndicator(this));
-                banner.setAdapter(new MultipleTypesAdapter(this, DataBean.getTestData()));
+                banner.setAdapter(new MultipleTypesAdapter(this, DataBean.getTestData()))
+                        .setOnBannerListener(new OnBannerListener() {
+                            @Override
+                            public void OnBannerClick(Object data, int position) {
+                                Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+
+                            @Override
+                            public void OnBannerLongClick(Object data, int position) {
+                                Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+                        });
                 break;
             case R.id.style_net_image:
                 refresh.setEnabled(false);
@@ -137,16 +197,29 @@ public class MainActivity extends AppCompatActivity {
 
                 //方法二：使用自带的图片适配器
                 banner.setAdapter(new BannerImageAdapter<DataBean>(DataBean.getTestData3()) {
-                    @Override
-                    public void onBindView(BannerImageHolder holder, DataBean data, int position, int size) {
-                        //图片加载自己实现
-                        Glide.with(holder.itemView)
-                                .load(data.imageUrl)
-                                .thumbnail(Glide.with(holder.itemView).load(R.drawable.loading))
-                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                                .into(holder.imageView);
-                    }
-                });
+                            @Override
+                            public void onBindView(BannerImageHolder holder, DataBean data, int position, int size) {
+                                //图片加载自己实现
+                                Glide.with(holder.itemView)
+                                        .load(data.imageUrl)
+                                        .thumbnail(Glide.with(holder.itemView).load(R.drawable.loading))
+                                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                        .into(holder.imageView);
+                            }
+                        })
+                        .setOnBannerListener(new OnBannerListener() {
+                            @Override
+                            public void OnBannerClick(Object data, int position) {
+                                Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+
+                            @Override
+                            public void OnBannerLongClick(Object data, int position) {
+                                Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                                LogUtils.d("position：" + position);
+                            }
+                        });
                 banner.setIndicator(new RoundLinesIndicator(this));
                 banner.setIndicatorSelectedWidth(BannerUtils.dp2px(15));
                 break;

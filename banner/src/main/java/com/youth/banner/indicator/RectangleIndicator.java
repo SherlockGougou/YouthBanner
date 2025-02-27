@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import com.youth.banner.config.BannerConfig;
-
 /**
  * 矩形（条形）指示器
  * 1、可以设置选中和默认的宽度、指示器的圆角

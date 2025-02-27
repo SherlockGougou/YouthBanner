@@ -27,7 +27,7 @@ public class LogUtils {
         }
     }
 
-    public static void v( String msg) {
+    public static void v(String msg) {
         if (DEBUG) {
             Log.v(TAG, msg);
         }

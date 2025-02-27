@@ -8,8 +8,6 @@ import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 
-import com.youth.banner.util.BannerUtils;
-
 public class RoundLinesIndicator extends BaseIndicator {
 
     public RoundLinesIndicator(Context context) {

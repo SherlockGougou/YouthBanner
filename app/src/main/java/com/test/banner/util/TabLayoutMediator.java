@@ -1,5 +1,10 @@
 package com.test.banner.util;
 
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -11,16 +16,11 @@ import com.google.android.material.tabs.TabLayout;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING;
-
 /**
  * A mediator to link a TabLayout with a ViewPager2. The mediator will synchronize the ViewPager2's
  * position with the selected tab when a tab is selected, and the TabLayout's scroll position when
  * the user drags the ViewPager2.
- *
+ * <p>
  * Establish the link by creating an instance of this class, make sure the ViewPager2 has an adapter
  * and then call {@link #attach()} on it. When creating an instance of this class, you must supply
  * an implementation of {@link OnConfigureTabCallback} in which you set the text of the tab, and/or
@@ -30,32 +30,36 @@ import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING;
  */
 @RestrictTo(LIBRARY_GROUP)
 public final class TabLayoutMediator {
+    private static final String SET_SCROLL_POSITION_NAME = "TabLayout.setScrollPosition(int, float,"
+            + " boolean, boolean)";
+    private static final String SELECT_TAB_NAME = "TabLayout.selectTab(TabLayout.Tab, boolean)";
+    private static Method sSetScrollPosition;
+    private static Method sSelectTab;
+
+    static {
+        try {
+            sSetScrollPosition = TabLayout.class.getDeclaredMethod("setScrollPosition", int.class,
+                    float.class, boolean.class, boolean.class);
+            sSetScrollPosition.setAccessible(true);
+
+            sSelectTab = TabLayout.class.getDeclaredMethod("selectTab", TabLayout.Tab.class,
+                    boolean.class);
+            sSelectTab.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("Can't reflect into method TabLayout"
+                    + ".setScrollPosition(int, float, boolean, boolean)");
+        }
+    }
+
     private final @NonNull TabLayout mTabLayout;
     private final @NonNull ViewPager2 mViewPager;
     private final boolean mAutoRefresh;
     private final OnConfigureTabCallback mOnConfigureTabCallback;
     private RecyclerView.Adapter mAdapter;
     private boolean mAttached;
-
     private TabLayoutOnPageChangeCallback mOnPageChangeCallback;
     private TabLayout.OnTabSelectedListener mOnTabSelectedListener;
     private RecyclerView.AdapterDataObserver mPagerAdapterObserver;
-
-    /**
-     * A callback interface that must be implemented to set the text and styling of newly created
-     * tabs.
-     */
-    public interface OnConfigureTabCallback {
-        /**
-         * Called to configure the tab for the page at the specified position. Typically calls
-         * {@link TabLayout.Tab#setText(CharSequence)}, but any form of styling can be applied.
-         *
-         * @param tab The Tab which should be configured to represent the title of the item at the
-         *        given position in the data set.
-         * @param position The position of the item within the adapter's data set.
-         */
-        void onConfigureTab(@NonNull TabLayout.Tab tab, int position);
-    }
 
     /**
      * Creates a TabLayoutMediator to synchronize a TabLayout and a ViewPager2 together. It will
@@ -75,10 +79,10 @@ public final class TabLayoutMediator {
      * autoRefresh} is true, it will update the tabs automatically when the data set of the view
      * pager's adapter changes. The link will be established after {@link #attach()} is called.
      *
-     * @param tabLayout The tab bar to link
-     * @param viewPager The view pager to link
+     * @param tabLayout   The tab bar to link
+     * @param viewPager   The view pager to link
      * @param autoRefresh If {@code true}, will recreate all tabs when the data set of the view
-     *                   pager's adapter changes.
+     *                    pager's adapter changes.
      */
     public TabLayoutMediator(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager,
                              boolean autoRefresh, @NonNull OnConfigureTabCallback onConfigureTabCallback) {
@@ -88,10 +92,53 @@ public final class TabLayoutMediator {
         mOnConfigureTabCallback = onConfigureTabCallback;
     }
 
+    // region Reflective calls
+
+    // Temporarily call methods TabLayout.setScrollPosition(int, float, boolean, boolean) and
+    // TabLayout.selectTab(TabLayout.Tab, boolean) through reflection, until they have been made
+    // public in the Material Design Components library.
+
+    @SuppressWarnings("WeakerAccess")
+    static void setScrollPosition(TabLayout tabLayout, int position, float positionOffset,
+                                  boolean updateSelectedText, boolean updateIndicatorPosition) {
+        try {
+            if (sSetScrollPosition != null) {
+                sSetScrollPosition.invoke(tabLayout, position, positionOffset, updateSelectedText,
+                        updateIndicatorPosition);
+            } else {
+                throwMethodNotFound(SET_SCROLL_POSITION_NAME);
+            }
+        } catch (Exception e) {
+            throwInvokeFailed(SET_SCROLL_POSITION_NAME);
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
+        try {
+            if (sSelectTab != null) {
+                sSelectTab.invoke(tabLayout, tab, updateIndicator);
+            } else {
+                throwMethodNotFound(SELECT_TAB_NAME);
+            }
+        } catch (Exception e) {
+            throwInvokeFailed(SELECT_TAB_NAME);
+        }
+    }
+
+    private static void throwMethodNotFound(String method) {
+        throw new IllegalStateException("Method " + method + " not found");
+    }
+
+    private static void throwInvokeFailed(String method) {
+        throw new IllegalStateException("Couldn't invoke method " + method);
+    }
+
     /**
      * Link the TabLayout and the ViewPager2 together.
+     *
      * @throws IllegalStateException If the mediator is already attached, or the ViewPager2 has no
-     *         adapter.
+     *                               adapter.
      */
     public void attach() {
         if (mAttached) {
@@ -162,6 +209,22 @@ public final class TabLayoutMediator {
     }
 
     /**
+     * A callback interface that must be implemented to set the text and styling of newly created
+     * tabs.
+     */
+    public interface OnConfigureTabCallback {
+        /**
+         * Called to configure the tab for the page at the specified position. Typically calls
+         * {@link TabLayout.Tab#setText(CharSequence)}, but any form of styling can be applied.
+         *
+         * @param tab      The Tab which should be configured to represent the title of the item at the
+         *                 given position in the data set.
+         * @param position The position of the item within the adapter's data set.
+         */
+        void onConfigureTab(@NonNull TabLayout.Tab tab, int position);
+    }
+
+    /**
      * A {@link ViewPager2.OnPageChangeCallback} class which contains the necessary calls back to
      * the provided {@link TabLayout} so that the tab position is kept in sync.
      *
@@ -222,69 +285,6 @@ public final class TabLayoutMediator {
         }
     }
 
-    // region Reflective calls
-
-    // Temporarily call methods TabLayout.setScrollPosition(int, float, boolean, boolean) and
-    // TabLayout.selectTab(TabLayout.Tab, boolean) through reflection, until they have been made
-    // public in the Material Design Components library.
-
-    private static Method sSetScrollPosition;
-    private static Method sSelectTab;
-    private static final String SET_SCROLL_POSITION_NAME = "TabLayout.setScrollPosition(int, float,"
-            + " boolean, boolean)";
-    private static final String SELECT_TAB_NAME = "TabLayout.selectTab(TabLayout.Tab, boolean)";
-
-    static {
-        try {
-            sSetScrollPosition = TabLayout.class.getDeclaredMethod("setScrollPosition", int.class,
-                    float.class, boolean.class, boolean.class);
-            sSetScrollPosition.setAccessible(true);
-
-            sSelectTab = TabLayout.class.getDeclaredMethod("selectTab", TabLayout.Tab.class,
-                    boolean.class);
-            sSelectTab.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Can't reflect into method TabLayout"
-                    + ".setScrollPosition(int, float, boolean, boolean)");
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    static void setScrollPosition(TabLayout tabLayout, int position, float positionOffset,
-                                  boolean updateSelectedText, boolean updateIndicatorPosition) {
-        try {
-            if (sSetScrollPosition != null) {
-                sSetScrollPosition.invoke(tabLayout, position, positionOffset, updateSelectedText,
-                        updateIndicatorPosition);
-            } else {
-                throwMethodNotFound(SET_SCROLL_POSITION_NAME);
-            }
-        } catch (Exception e) {
-            throwInvokeFailed(SET_SCROLL_POSITION_NAME);
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
-        try {
-            if (sSelectTab != null) {
-                sSelectTab.invoke(tabLayout, tab, updateIndicator);
-            } else {
-                throwMethodNotFound(SELECT_TAB_NAME);
-            }
-        } catch (Exception e) {
-            throwInvokeFailed(SELECT_TAB_NAME);
-        }
-    }
-
-    private static void throwMethodNotFound(String method) {
-        throw new IllegalStateException("Method " + method + " not found");
-    }
-
-    private static void throwInvokeFailed(String method) {
-        throw new IllegalStateException("Couldn't invoke method " + method);
-    }
-
     // endregion
 
     /**
@@ -315,7 +315,8 @@ public final class TabLayoutMediator {
     }
 
     private class PagerAdapterObserver extends RecyclerView.AdapterDataObserver {
-        PagerAdapterObserver() {}
+        PagerAdapterObserver() {
+        }
 
         @Override
         public void onChanged() {

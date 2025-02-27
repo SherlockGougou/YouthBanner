@@ -2,8 +2,6 @@ package com.youth.banner.transformer;
 
 import android.view.View;
 
-import androidx.viewpager2.widget.ViewPager2;
-
 
 public class ZoomOutPageTransformer extends BasePageTransformer {
     private static final float DEFAULT_MIN_SCALE = 0.85f;
@@ -14,7 +12,7 @@ public class ZoomOutPageTransformer extends BasePageTransformer {
     public ZoomOutPageTransformer() {
     }
 
-    public ZoomOutPageTransformer(float minScale,float minAlpha ) {
+    public ZoomOutPageTransformer(float minScale, float minAlpha) {
         this.mMinScale = minScale;
         this.mMinAlpha = minAlpha;
     }

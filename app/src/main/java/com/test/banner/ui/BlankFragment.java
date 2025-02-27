@@ -1,30 +1,24 @@
 package com.test.banner.ui;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.test.banner.R;
 import com.test.banner.adapter.ImageNetAdapter;
-import com.test.banner.adapter.MyRecyclerViewAdapter;
 import com.test.banner.bean.DataBean;
-import com.test.banner.indicator.NumIndicator;
 import com.youth.banner.Banner;
-import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.youth.banner.util.LogUtils;
 
 public class BlankFragment extends Fragment {
 
@@ -35,7 +29,7 @@ public class BlankFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.test,null);
+        return inflater.inflate(R.layout.test, null);
     }
 
     @Override
@@ -45,7 +39,20 @@ public class BlankFragment extends Fragment {
 
         //通过new的方式创建banner
         Banner banner = new Banner(getActivity());
-        banner.setAdapter(new ImageNetAdapter(DataBean.getTestData3()));
+        banner.setAdapter(new ImageNetAdapter(DataBean.getTestData3()))
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(Object data, int position) {
+                        Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
+                    public void OnBannerLongClick(Object data, int position) {
+                        Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+                });
         banner.addBannerLifecycleObserver(this);
         banner.setIndicator(new CircleIndicator(getActivity()));
 

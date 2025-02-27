@@ -17,7 +17,7 @@ public class RotateYTransformer extends BasePageTransformer {
 
     @Override
     public void transformPage(@NonNull View view, float position) {
-        view.setPivotY(view.getHeight()/2);
+        view.setPivotY(view.getHeight() / 2);
 
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.

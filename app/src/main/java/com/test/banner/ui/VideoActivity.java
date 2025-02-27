@@ -3,6 +3,10 @@ package com.test.banner.ui;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.test.banner.R;
@@ -12,10 +16,10 @@ import com.test.banner.indicator.NumIndicator;
 import com.test.banner.viewholder.VideoHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.config.IndicatorConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.listener.OnPageChangeListener;
+import com.youth.banner.util.LogUtils;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -45,13 +49,26 @@ public class VideoActivity extends AppCompatActivity {
 
                     @Override
                     public void onPageSelected(int position) {
-                        Log.e("--","position:"+position);
+                        Log.e("--", "position:" + position);
                         stopVideo(position);
                     }
 
                     @Override
                     public void onPageScrollStateChanged(int state) {
 
+                    }
+                })
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(Object data, int position) {
+                        Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
+                    public void OnBannerLongClick(Object data, int position) {
+                        Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
                     }
                 });
     }
@@ -66,7 +83,7 @@ public class VideoActivity extends AppCompatActivity {
                     player.onVideoPause();
                 }
             }
-        }else {
+        } else {
             if (position != 0) {
                 player.onVideoPause();
             }

@@ -2,8 +2,6 @@ package com.youth.banner.transformer;
 
 import android.view.View;
 
-import androidx.viewpager2.widget.ViewPager2;
-
 public class DepthPageTransformer extends BasePageTransformer {
     private static final float DEFAULT_MIN_SCALE = 0.75f;
     private float mMinScale = DEFAULT_MIN_SCALE;
@@ -44,7 +42,7 @@ public class DepthPageTransformer extends BasePageTransformer {
             view.setScaleX(scaleFactor);
             view.setScaleY(scaleFactor);
             //退出页面时
-            if(position ==1){
+            if (position == 1) {
                 view.setVisibility(View.INVISIBLE);
             }
 

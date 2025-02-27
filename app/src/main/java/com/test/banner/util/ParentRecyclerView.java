@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ParentRecyclerView extends RecyclerView {
+    private float mStartX, mStartY;
+
     public ParentRecyclerView(@NonNull Context context) {
         super(context);
     }
@@ -20,8 +22,6 @@ public class ParentRecyclerView extends RecyclerView {
     public ParentRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-    private float mStartX, mStartY;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

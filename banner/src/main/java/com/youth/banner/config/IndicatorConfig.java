@@ -27,36 +27,6 @@ public class IndicatorConfig {
     //是将指示器添加到banner上
     private boolean attachToBanner = true;
 
-    @IntDef({Direction.LEFT, Direction.CENTER, Direction.RIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Direction {
-        int LEFT = 0;
-        int CENTER = 1;
-        int RIGHT = 2;
-    }
-
-    public static class Margins {
-        public int leftMargin;
-        public int topMargin;
-        public int rightMargin;
-        public int bottomMargin;
-
-        public Margins() {
-            this(BannerConfig.INDICATOR_MARGIN);
-        }
-
-        public Margins(int marginSize) {
-            this(marginSize, marginSize, marginSize, marginSize);
-        }
-
-        public Margins(int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
-            this.leftMargin = leftMargin;
-            this.topMargin = topMargin;
-            this.rightMargin = rightMargin;
-            this.bottomMargin = bottomMargin;
-        }
-    }
-
     public Margins getMargins() {
         if (margins == null) {
             setMargins(new Margins());
@@ -166,5 +136,35 @@ public class IndicatorConfig {
     public IndicatorConfig setHeight(int height) {
         this.height = height;
         return this;
+    }
+
+    @IntDef({Direction.LEFT, Direction.CENTER, Direction.RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Direction {
+        int LEFT = 0;
+        int CENTER = 1;
+        int RIGHT = 2;
+    }
+
+    public static class Margins {
+        public int leftMargin;
+        public int topMargin;
+        public int rightMargin;
+        public int bottomMargin;
+
+        public Margins() {
+            this(BannerConfig.INDICATOR_MARGIN);
+        }
+
+        public Margins(int marginSize) {
+            this(marginSize, marginSize, marginSize, marginSize);
+        }
+
+        public Margins(int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
+            this.leftMargin = leftMargin;
+            this.topMargin = topMargin;
+            this.rightMargin = rightMargin;
+            this.bottomMargin = bottomMargin;
+        }
     }
 }

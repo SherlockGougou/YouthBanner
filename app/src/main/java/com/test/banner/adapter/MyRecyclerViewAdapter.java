@@ -2,7 +2,6 @@ package com.test.banner.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.test.banner.R;
 import com.test.banner.bean.DataBean;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.RoundLinesIndicator;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
+import com.youth.banner.util.LogUtils;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
@@ -27,9 +29,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType==R.layout.item) {
+        if (viewType == R.layout.item) {
             return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false));
-        }else{
+        } else {
             return new MyBannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.banner, parent, false));
         }
     }
@@ -38,9 +40,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).cardView.setBackgroundColor(Color.parseColor(DataBean.getRandColor()));
-        }else if (holder instanceof MyBannerViewHolder){
-            Banner banner=((MyBannerViewHolder) holder).banner;
-            banner.setAdapter(new ImageNetAdapter(DataBean.getTestData3()));
+        } else if (holder instanceof MyBannerViewHolder) {
+            Banner banner = ((MyBannerViewHolder) holder).banner;
+            banner.setAdapter(new ImageNetAdapter(DataBean.getTestData3()))
+                    .setOnBannerListener(new OnBannerListener() {
+                        @Override
+                        public void OnBannerClick(Object data, int position) {
+                            Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                            LogUtils.d("position：" + position);
+                        }
+
+                        @Override
+                        public void OnBannerLongClick(Object data, int position) {
+                            Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                            LogUtils.d("position：" + position);
+                        }
+                    });
             banner.setBannerRound(BannerUtils.dp2px(5));
             banner.setIndicator(new RoundLinesIndicator(context));
             banner.setIndicatorSelectedWidth((int) BannerUtils.dp2px(15));
@@ -50,9 +65,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position%2==0){
+        if (position % 2 == 0) {
             return R.layout.item;
-        }else{
+        } else {
             return R.layout.banner;
         }
     }

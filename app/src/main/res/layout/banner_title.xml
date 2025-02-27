@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/bannerTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="#ffffff"
-        android:textSize="25dp"
+        android:background="#5CB85C"
         android:gravity="center"
-        android:background="#5CB85C" />
+        android:textColor="#ffffff"
+        android:textSize="25dp" />
 </RelativeLayout>

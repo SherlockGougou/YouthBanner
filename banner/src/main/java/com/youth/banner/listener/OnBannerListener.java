@@ -10,4 +10,11 @@ public interface OnBannerListener<T> {
      */
     void OnBannerClick(T data, int position);
 
+    /**
+     * 长按事件
+     *
+     * @param data     数据实体
+     * @param position 当前位置
+     */
+    void OnBannerLongClick(T data, int position);
 }
