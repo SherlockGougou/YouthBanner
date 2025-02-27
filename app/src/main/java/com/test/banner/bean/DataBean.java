@@ -52,7 +52,7 @@ public class DataBean {
      */
     public static List<DataBean> getTestDataVideo() {
         List<DataBean> list = new ArrayList<>();
-        list.add(new DataBean("http://vfx.mtime.cn/Video/2019/03/09/mp4/190309153658147087.mp4", "第一个放视频", 2));
+        list.add(new DataBean("https://cdn.jeff1992.com/av/ai/video/2024/upload/am_f34ca072f2e0812204233934085111dd.mp4", "第一个放视频", 2));
         list.add(new DataBean(R.drawable.image7, "听风.赏雨", 1));
         list.add(new DataBean(R.drawable.image8, "迪丽热巴.迪力木拉提", 1));
         list.add(new DataBean(R.drawable.image9, "爱美.人间有之", 1));
