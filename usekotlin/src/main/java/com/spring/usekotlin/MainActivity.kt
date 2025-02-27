@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //使用默认的图片适配器
-        var banner = (bannerLayout1 as Banner<String, BannerImageAdapter<String>>)
+        val banner = (bannerLayout1 as Banner<String, BannerImageAdapter<String>>)
         banner.apply {
             addBannerLifecycleObserver(this@MainActivity)
             setIndicator(CircleIndicator(this@MainActivity))
@@ -52,16 +52,22 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-
         //使用自定义适配器，更多api方法自己尝试
-        var banner2 = (bannerLayout2 as Banner<String, ImageAdapter>)
+        val banner2 = (bannerLayout2 as Banner<String, ImageAdapter>)
         banner2.apply {
             addBannerLifecycleObserver(this@MainActivity)
             setBannerRound(20f)
             setIndicator(RoundLinesIndicator(this@MainActivity))
             setAdapter(ImageAdapter(imageUrls))
+            setOnBannerListener(object : OnBannerListener<String> {
+                override fun OnBannerClick(data: String?, position: Int) {
+                    Toast.makeText(banner2.context, "点击: $position", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun OnBannerLongClick(data: String?, position: Int) {
+                    Toast.makeText(banner2.context, "长按: $position", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
-
-
 }
