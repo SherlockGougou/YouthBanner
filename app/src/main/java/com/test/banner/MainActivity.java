@@ -3,8 +3,10 @@ package com.test.banner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -68,19 +70,19 @@ public class MainActivity extends AppCompatActivity {
                 .setIndicator(new CircleIndicator(this))
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
-                    public void OnBannerClick(Object data, int position) {
+                    public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerDoubleClick(Object data, int position) {
+                    public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerLongClick(Object data, int position) {
+                    public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
@@ -124,19 +126,19 @@ public class MainActivity extends AppCompatActivity {
                 banner.setAdapter(new ImageAdapter(DataBean.getTestData()))
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
-                            public void OnBannerClick(Object data, int position) {
+                            public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerDoubleClick(Object data, int position) {
+                            public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerLongClick(Object data, int position) {
+                            public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
@@ -149,19 +151,19 @@ public class MainActivity extends AppCompatActivity {
                 banner.setAdapter(new ImageTitleAdapter(DataBean.getTestData()))
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
-                            public void OnBannerClick(Object data, int position) {
+                            public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerDoubleClick(Object data, int position) {
+                            public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerLongClick(Object data, int position) {
+                            public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
@@ -177,19 +179,19 @@ public class MainActivity extends AppCompatActivity {
                 banner.setAdapter(new ImageTitleNumAdapter(DataBean.getTestData()))
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
-                            public void OnBannerClick(Object data, int position) {
+                            public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerDoubleClick(Object data, int position) {
+                            public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerLongClick(Object data, int position) {
+                            public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
@@ -202,19 +204,19 @@ public class MainActivity extends AppCompatActivity {
                 banner.setAdapter(new MultipleTypesAdapter(this, DataBean.getTestData()))
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
-                            public void OnBannerClick(Object data, int position) {
+                            public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerDoubleClick(Object data, int position) {
+                            public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerLongClick(Object data, int position) {
+                            public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
@@ -239,19 +241,19 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .setOnBannerListener(new OnBannerListener() {
                             @Override
-                            public void OnBannerClick(Object data, int position) {
+                            public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerDoubleClick(Object data, int position) {
+                            public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }
 
                             @Override
-                            public void OnBannerLongClick(Object data, int position) {
+                            public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                                 Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                                 LogUtils.d("position：" + position);
                             }

@@ -2,6 +2,7 @@ package com.test.banner.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -42,19 +43,19 @@ public class BlankFragment extends Fragment {
         banner.setAdapter(new ImageNetAdapter(DataBean.getTestData3()))
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
-                    public void OnBannerClick(Object data, int position) {
+                    public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerDoubleClick(Object data, int position) {
+                    public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerLongClick(Object data, int position) {
+                    public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }

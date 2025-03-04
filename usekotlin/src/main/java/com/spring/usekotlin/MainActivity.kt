@@ -1,6 +1,7 @@
 package com.spring.usekotlin
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -42,15 +43,15 @@ class MainActivity : AppCompatActivity() {
                         .into(holder.imageView)
                 }
             }).setOnBannerListener(object : OnBannerListener<String> {
-                override fun OnBannerClick(data: String?, position: Int) {
+                override fun OnBannerClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner.context, "点击: $position", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun OnBannerDoubleClick(data: String?, position: Int) {
+                override fun OnBannerDoubleClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner.context, "双击: $position", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun OnBannerLongClick(data: String?, position: Int) {
+                override fun OnBannerLongClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner.context, "长按: $position", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -64,15 +65,15 @@ class MainActivity : AppCompatActivity() {
             setIndicator(RoundLinesIndicator(this@MainActivity))
             setAdapter(ImageAdapter(imageUrls))
             setOnBannerListener(object : OnBannerListener<String> {
-                override fun OnBannerClick(data: String?, position: Int) {
+                override fun OnBannerClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner2.context, "点击: $position", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun OnBannerDoubleClick(data: String?, position: Int) {
+                override fun OnBannerDoubleClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner2.context, "双击: $position", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun OnBannerLongClick(data: String?, position: Int) {
+                override fun OnBannerLongClick(event: MotionEvent, data: String?, position: Int) {
                     Toast.makeText(banner2.context, "长按: $position", Toast.LENGTH_SHORT).show()
                 }
             })

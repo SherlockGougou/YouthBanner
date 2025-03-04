@@ -85,20 +85,20 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
         if (mOnBannerListener != null) {
             GestureDetector detector = new GestureDetector(holder.itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
                 @Override public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
-                    mOnBannerListener.OnBannerClick(data, real);
+                    mOnBannerListener.OnBannerClick(e, data, real);
                     Log.d(TAG, "onSingleTap: 单击");
                     return false;
                 }
 
                 @Override public boolean onDoubleTap(@NonNull MotionEvent e) {
-                    mOnBannerListener.OnBannerDoubleClick(data, real);
+                    mOnBannerListener.OnBannerDoubleClick(e, data, real);
                     Log.d(TAG, "onDoubleTap: 双击");
                     return false;
                 }
 
                 @Override
                 public void onLongPress(@NonNull MotionEvent e) {
-                    mOnBannerListener.OnBannerLongClick(data, real);
+                    mOnBannerListener.OnBannerLongClick(e, data, real);
                     Log.d(TAG, "onLongPress: 长按");
                 }
             });

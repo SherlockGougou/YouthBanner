@@ -1,7 +1,9 @@
 package com.test.banner.ui;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -32,19 +34,19 @@ public class TouTiaoActivity extends AppCompatActivity {
                 .setPageTransformer(new ZoomOutPageTransformer())
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
-                    public void OnBannerClick(Object data, int position) {
+                    public void OnBannerClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerDoubleClick(Object data, int position) {
+                    public void OnBannerDoubleClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 
                     @Override
-                    public void OnBannerLongClick(Object data, int position) {
+                    public void OnBannerLongClick(@NonNull MotionEvent e, Object data, int position) {
                         Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
