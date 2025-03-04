@@ -73,6 +73,12 @@ public class Vp2FragmentRecyclerviewActivity extends AppCompatActivity {
                     }
 
                     @Override
+                    public void OnBannerDoubleClick(Object data, int position) {
+                        Snackbar.make(mBanner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
                     public void OnBannerLongClick(Object data, int position) {
                         Snackbar.make(mBanner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);

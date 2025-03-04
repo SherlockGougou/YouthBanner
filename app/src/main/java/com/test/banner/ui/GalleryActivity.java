@@ -44,6 +44,12 @@ public class GalleryActivity extends AppCompatActivity {
                     }
 
                     @Override
+                    public void OnBannerDoubleClick(Object data, int position) {
+                        Snackbar.make(mBanner1, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
                     public void OnBannerLongClick(Object data, int position) {
                         Snackbar.make(mBanner1, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
@@ -65,6 +71,12 @@ public class GalleryActivity extends AppCompatActivity {
                     @Override
                     public void OnBannerClick(Object data, int position) {
                         Snackbar.make(mBanner2, "点击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
+                    public void OnBannerDoubleClick(Object data, int position) {
+                        Snackbar.make(mBanner2, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);
                     }
 

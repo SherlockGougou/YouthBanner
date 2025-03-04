@@ -39,6 +39,12 @@ public class TVActivity extends AppCompatActivity {
                     }
 
                     @Override
+                    public void OnBannerDoubleClick(Object data, int position) {
+                        Snackbar.make(banner, "双击: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
+                        LogUtils.d("position：" + position);
+                    }
+
+                    @Override
                     public void OnBannerLongClick(Object data, int position) {
                         Snackbar.make(banner, "长按: " + ((DataBean) data).title, Snackbar.LENGTH_SHORT).show();
                         LogUtils.d("position：" + position);

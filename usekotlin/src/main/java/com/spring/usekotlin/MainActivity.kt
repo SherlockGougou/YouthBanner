@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(banner.context, "点击: $position", Toast.LENGTH_SHORT).show()
                 }
 
+                override fun OnBannerDoubleClick(data: String?, position: Int) {
+                    Toast.makeText(banner.context, "双击: $position", Toast.LENGTH_SHORT).show()
+                }
+
                 override fun OnBannerLongClick(data: String?, position: Int) {
                     Toast.makeText(banner.context, "长按: $position", Toast.LENGTH_SHORT).show()
                 }
@@ -62,6 +66,10 @@ class MainActivity : AppCompatActivity() {
             setOnBannerListener(object : OnBannerListener<String> {
                 override fun OnBannerClick(data: String?, position: Int) {
                     Toast.makeText(banner2.context, "点击: $position", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun OnBannerDoubleClick(data: String?, position: Int) {
+                    Toast.makeText(banner2.context, "双击: $position", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun OnBannerLongClick(data: String?, position: Int) {

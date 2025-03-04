@@ -1,5 +1,9 @@
 package com.youth.banner.adapter;
 
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,6 +20,9 @@ import java.util.List;
 
 
 public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements IViewHolder<T, VH> {
+
+    private static final String TAG = "BannerAdapter";
+
     protected List<T> mDatas = new ArrayList<>();
     private OnBannerListener<T> mOnBannerListener;
     private VH mViewHolder;
@@ -76,10 +83,31 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
         holder.itemView.setTag(R.id.banner_pos_key, real);
         onBindView(holder, mDatas.get(real), real, getRealCount());
         if (mOnBannerListener != null) {
-            holder.itemView.setOnClickListener(view -> mOnBannerListener.OnBannerClick(data, real));
-            holder.itemView.setOnLongClickListener(view -> {
-                mOnBannerListener.OnBannerLongClick(data, real);
-                return true;
+            GestureDetector detector = new GestureDetector(holder.itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
+                @Override public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+                    mOnBannerListener.OnBannerClick(data, real);
+                    Log.d(TAG, "onSingleTap: 单击");
+                    return false;
+                }
+
+                @Override public boolean onDoubleTap(@NonNull MotionEvent e) {
+                    mOnBannerListener.OnBannerDoubleClick(data, real);
+                    Log.d(TAG, "onDoubleTap: 双击");
+                    return false;
+                }
+
+                @Override
+                public void onLongPress(@NonNull MotionEvent e) {
+                    mOnBannerListener.OnBannerLongClick(data, real);
+                    Log.d(TAG, "onLongPress: 长按");
+                }
+            });
+            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    detector.onTouchEvent(event);
+                    return true;
+                }
             });
         }
     }
@@ -89,21 +117,6 @@ public abstract class BannerAdapter<T, VH extends RecyclerView.ViewHolder> exten
     @SuppressWarnings("unchecked")
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         VH vh = onCreateHolder(parent, viewType);
-        vh.itemView.setOnClickListener(v -> {
-            if (mOnBannerListener != null) {
-                T data = (T) vh.itemView.getTag(R.id.banner_data_key);
-                int real = (int) vh.itemView.getTag(R.id.banner_pos_key);
-                mOnBannerListener.OnBannerClick(data, real);
-            }
-        });
-        vh.itemView.setOnLongClickListener(v -> {
-            if (mOnBannerListener != null) {
-                T data = (T) vh.itemView.getTag(R.id.banner_data_key);
-                int real = (int) vh.itemView.getTag(R.id.banner_pos_key);
-                mOnBannerListener.OnBannerLongClick(data, real);
-            }
-            return true;
-        });
         return vh;
     }
 
